@@ -42,10 +42,14 @@ class Airspaces;
 class AbstractAirspace;
 class AbstractTaskFactory;
 class OrderedTaskPoint;
+class AbstractAirspace;
 
 void StartupScreen();
 
 void dlgAirspaceWarningsShowModal(SingleWindow &parent, bool auto_close = false);
+void dlgAirspaceWarningShowAll(SingleWindow &parent);
+void dlgAirspaceWarningShowModal(SingleWindow &parent,
+                                 const AbstractAirspace &as);
 bool dlgAirspaceWarningVisible();
 void dlgAirspaceDetails(const AbstractAirspace& the_airspace);
 int dlgAirspaceColoursShowModal();

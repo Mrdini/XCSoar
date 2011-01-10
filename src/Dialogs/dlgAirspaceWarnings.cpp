@@ -367,12 +367,6 @@ OnTimer(WndForm &Sender)
   update_list();
 }
 
-bool
-dlgAirspaceWarningVisible()
-{
-  return (wf != NULL);
-}
-
 static CallBackTableEntry CallBackTable[] = {
   DeclareCallBackEntry(OnAckClicked),
   DeclareCallBackEntry(OnAck1Clicked),
@@ -420,7 +414,4 @@ dlgAirspaceWarningsShowModal(SingleWindow &parent, bool auto_close)
   wf->SetTimerNotify(NULL);
 
   delete wf;
-
-  // Needed for dlgAirspaceWarningVisible()
-  wf = NULL;
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<Form Name="frmAirspaceWarning" Width="320" Height="240" Caption="Airspace Warning">
+  <Button Caption="ACK Warn" X="1" Y="-38" width="46" height="36" OnClick="OnAck1Clicked"/>
+  <Button Caption="ACK Space" X="47" Y="-38" width="46" height="36" OnClick="OnAckClicked"/>
+  <Button Caption="ACK Day" X="93" Y="-38" width="46" height="36" OnClick="OnAck2Clicked"/>
+  <Button Caption="Close" X="189" Y="-38" width="45" height="36" OnClick="OnCloseClicked"/>
+</Form>
