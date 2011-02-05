@@ -110,8 +110,6 @@ namespace InputEvents
   void eventNull(const TCHAR *misc);
   void eventPan(const TCHAR *misc);
   void eventPlaySound(const TCHAR *misc);
-  void eventProfileLoad(const TCHAR *misc);
-  void eventProfileSave(const TCHAR *misc);
   void eventRepeatStatusMessage(const TCHAR *misc);
   void eventRun(const TCHAR *misc);
   void eventScreenModes(const TCHAR *misc);

@@ -1262,35 +1262,6 @@ InputEvents::eventTaskSave(const TCHAR *misc)
   }
 }
 
-// ProfileLoad
-// Loads the profile of the specified filename
-void
-InputEvents::eventProfileLoad(const TCHAR *misc)
-{
-  if (!string_is_empty(misc)) {
-    Profile::LoadFile(misc);
-
-    WaypointFileChanged = true;
-    TerrainFileChanged = true;
-    TopologyFileChanged = true;
-    AirspaceFileChanged = true;
-    AirfieldFileChanged = true;
-    PolarFileChanged = true;
-
-    // assuming all is ok, we can...
-    Profile::Use();
-  }
-}
-
-// ProfileSave
-// Saves the profile to the specified filename
-void
-InputEvents::eventProfileSave(const TCHAR *misc)
-{
-  if (!string_is_empty(misc))
-    Profile::SaveFile(misc);
-}
-
 void
 InputEvents::eventBeep(const TCHAR *misc)
 {
@@ -1507,15 +1478,6 @@ InputEvents::eventOrientation(const TCHAR *misc)
 // JMW TODO enhancement: make sure when we change things here we also set registry values...
 // or maybe have special tag "save" which indicates it should be saved (notice that
 // the wind adjustment uses this already, see in Process.cpp)
-
-/* Recently done
-
-eventTaskLoad		- Load tasks from a file (misc = filename)
-eventTaskSave		- Save tasks to a file (misc = filename)
-eventProfileLoad		- Load profile from a file (misc = filename)
-eventProfileSave		- Save profile to a file (misc = filename)
-
-*/
 
 /* TODO feature: - new events
 
