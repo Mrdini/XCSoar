@@ -45,11 +45,11 @@ void
 Profile::Load()
 {
   LogStartUp(_T("Loading profiles"));
-  LoadFile(startProfileFile);
+  LoadFile(startProfileFile, p);
 }
 
 void
-Profile::LoadFile(const TCHAR *szFile)
+Profile::LoadFile(const TCHAR *szFile, ProfileMap &map)
 {
   if (string_is_empty(szFile))
     return;
@@ -88,11 +88,11 @@ Profile::LoadFile(const TCHAR *szFile)
 
       *p = _T('\0');
 
-      Set(key, value);
+      map.Set(key, value);
     } else {
       long l = _tcstol(value, &p, 10);
       if (p > value)
-        Set(key, l);
+        map.Set(key, l);
     }
   }
 }
@@ -101,11 +101,11 @@ void
 Profile::Save()
 {
   LogStartUp(_T("Saving profiles"));
-  SaveFile(startProfileFile);
+  SaveFile(startProfileFile, p);
 }
 
 void
-Profile::SaveFile(const TCHAR *szFile)
+Profile::SaveFile(const TCHAR *szFile, ProfileMap &map)
 {
   if (string_is_empty(szFile))
     return;
@@ -119,7 +119,7 @@ Profile::SaveFile(const TCHAR *szFile)
   ProfileWriter profile_writer(writer);
 
   LogStartUp(_T("Saving profile to %s"), szFile);
-  Export(profile_writer);
+  map.Export(profile_writer);
 }
 
 

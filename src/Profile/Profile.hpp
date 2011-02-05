@@ -40,7 +40,7 @@ namespace Profile
   /**
    * Loads the given profile file
    */
-  void LoadFile(const TCHAR *szFile);
+  void LoadFile(const TCHAR *szFile, ProfileMap &map);
 
   /**
    * Saves the profile into the profile files
@@ -49,7 +49,7 @@ namespace Profile
   /**
    * Saves the profile into the given profile file
    */
-  void SaveFile(const TCHAR *szFile);
+  void SaveFile(const TCHAR *szFile, ProfileMap &map);
 
   /**
    * Sets the profile files to load when calling Load()
