@@ -40,9 +40,6 @@ TCHAR startProfileFile[MAX_PATH];
 void
 Profile::Load()
 {
-  if (!use_files())
-    return;
-
   LogStartUp(_T("Loading profiles"));
   LoadFile(startProfileFile);
 }
@@ -50,9 +47,6 @@ Profile::Load()
 void
 Profile::LoadFile(const TCHAR *szFile)
 {
-  if (!use_files())
-    return;
-
   if (string_is_empty(szFile))
     return;
 
@@ -102,9 +96,6 @@ Profile::LoadFile(const TCHAR *szFile)
 void
 Profile::Save()
 {
-  if (!use_files())
-    return;
-
   LogStartUp(_T("Saving profiles"));
   SaveFile(startProfileFile);
 }
@@ -112,9 +103,6 @@ Profile::Save()
 void
 Profile::SaveFile(const TCHAR *szFile)
 {
-  if (!use_files())
-    return;
-
   if (string_is_empty(szFile))
     return;
 
@@ -134,9 +122,6 @@ Profile::SaveFile(const TCHAR *szFile)
 void
 Profile::SetFiles(const TCHAR* override)
 {
-  if (!use_files())
-    return;
-
   // Set the profile file to load at startup
   if (!string_is_empty(override))
     _tcsncpy(startProfileFile, override, MAX_PATH - 1);

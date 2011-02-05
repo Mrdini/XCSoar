@@ -25,35 +25,15 @@ Copyright_License {
 #define XCSOAR_PROFILE_HPP
 
 #include "Profile/ProfileKeys.hpp"
-#include "Math/fixed.hpp"
-
-#ifdef USE_PROFILE_MAP
 #include "Profile/ProfileMap.hpp"
-namespace ProfileImpl = ProfileMap;
-#elif defined(WIN32)
-#include "Profile/Registry.hpp"
-namespace ProfileImpl = Registry;
-#else
-#include "Profile/GConf.hpp"
-namespace ProfileImpl = ProfileGConf;
-#endif
+#include "Math/fixed.hpp"
 
 #include <stddef.h>
 #include <tchar.h>
 
 namespace Profile
 {
-  using namespace ProfileImpl;
-
-  static inline bool
-  use_files()
-  {
-#ifdef PROFILE_NO_FILE
-    return false;
-#else
-    return true;
-#endif
-  }
+  using namespace ProfileMap;
 
   /**
    * Loads the profile files
