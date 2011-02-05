@@ -23,15 +23,6 @@ Copyright_License {
 
 #include "Profile/ProfileMap.hpp"
 #include "Profile/Writer.hpp"
-#include "Util/tstring.hpp"
-
-#include <map>
-
-namespace ProfileMap {
-  typedef std::map<tstring, tstring> map_t;
-
-  static map_t map;
-}
 
 bool
 ProfileMap::Get(const TCHAR *szRegValue, TCHAR *pPos, size_t dwSize)

@@ -25,14 +25,19 @@ Copyright_License {
 #define XCSOAR_PROFILE_MAP_HPP
 
 #include "Math/fixed.hpp"
+#include "Util/tstring.hpp"
 
-#include <tchar.h>
 #include <cstdio>
+#include <map>
 
 class ProfileWriter;
 
 namespace ProfileMap 
 {
+  typedef std::map<tstring, tstring> map_t;
+
+  static map_t map;
+
   /**
    * Reads a value from the profile map
    * @param szRegValue Name of the value that should be read
