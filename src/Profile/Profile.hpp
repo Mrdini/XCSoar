@@ -33,8 +33,6 @@ Copyright_License {
 
 namespace Profile
 {
-  using namespace ProfileMap;
-
   /**
    * Loads the profile files
    */
@@ -77,6 +75,23 @@ namespace Profile
    * Saves the sound settings to the profile
    */
   void SetSoundSettings();
+
+  bool Get(const TCHAR *szRegValue, TCHAR *pPos, size_t dwSize);
+  bool Set(const TCHAR *szRegValue, const TCHAR *Pos);
+
+  bool Get(const TCHAR *key, int &value);
+  bool Get(const TCHAR *key, short &value);
+  bool Get(const TCHAR *key, bool &value);
+  bool Get(const TCHAR *key, unsigned &value);
+  bool Get(const TCHAR *key, fixed &value);
+
+  bool Set(const TCHAR *key, bool value);
+  bool Set(const TCHAR *key, int value);
+  bool Set(const TCHAR *key, long value);
+  bool Set(const TCHAR *key, unsigned value);
+  bool Set(const TCHAR *key, fixed value);
+
+  void Export(ProfileWriter &writer);
 };
 
 #endif

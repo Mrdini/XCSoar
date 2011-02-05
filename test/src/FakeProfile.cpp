@@ -35,21 +35,71 @@ Profile::SetFiles(const TCHAR* override)
 }
 
 bool
-ProfileMap::Get(const TCHAR *szRegValue, TCHAR *pPos, size_t dwSize)
-{
-  pPos[0] = _T('\0');
-  return false;
-}
-
-bool
-ProfileMap::Set(const TCHAR *szRegValue, const TCHAR *Pos)
-{
-  return false;
-}
-
-bool
 Profile::GetPath(const TCHAR *key, TCHAR *value)
 {
   *value = _T('\0');
+  return false;
+}
+
+bool
+Profile::Get(const TCHAR *szRegValue, TCHAR *pPos, size_t dwSize)
+{
+  return false;
+}
+bool
+Profile::Set(const TCHAR *szRegValue, const TCHAR *Pos)
+{
+  return false;
+}
+
+bool
+Profile::Get(const TCHAR *key, int &value)
+{
+  return false;
+}
+bool
+Profile::Get(const TCHAR *key, short &value)
+{
+  return false;
+}
+bool
+Profile::Get(const TCHAR *key, bool &value)
+{
+  return false;
+}
+bool
+Profile::Get(const TCHAR *key, unsigned &value)
+{
+  return false;
+}
+bool
+Profile::Get(const TCHAR *key, fixed &value)
+{
+  return false;
+}
+
+bool
+Profile::Set(const TCHAR *key, bool value)
+{
+  return false;
+}
+bool
+Profile::Set(const TCHAR *key, int value)
+{
+  return false;
+}
+bool
+Profile::Set(const TCHAR *key, long value)
+{
+  return false;
+}
+bool
+Profile::Set(const TCHAR *key, unsigned value)
+{
+  return false;
+}
+bool
+Profile::Set(const TCHAR *key, fixed value)
+{
   return false;
 }

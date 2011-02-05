@@ -32,12 +32,12 @@ Copyright_License {
 
 class ProfileWriter;
 
-namespace ProfileMap 
-{
+class ProfileMap {
+private:
   typedef std::map<tstring, tstring> map_t;
+  map_t map;
 
-  static map_t map;
-
+public:
   /**
    * Reads a value from the profile map
    * @param szRegValue Name of the value that should be read
@@ -52,7 +52,7 @@ namespace ProfileMap
    */
   bool Set(const TCHAR *szRegValue, const TCHAR *Pos);
 
-  static inline bool Get(const TCHAR *key, int &value)
+  inline bool Get(const TCHAR *key, int &value)
   {
     // Try to read the profile map
     TCHAR str[50];
@@ -70,7 +70,7 @@ namespace ProfileMap
     return true;
   }
 
-  static inline bool Get(const TCHAR *key, short &value)
+  inline bool Get(const TCHAR *key, short &value)
   {
     // Try to read the profile map
     TCHAR str[50];
@@ -88,7 +88,7 @@ namespace ProfileMap
     return true;
   }
 
-  static inline bool Get(const TCHAR *key, bool &value)
+  inline bool Get(const TCHAR *key, bool &value)
   {
     // Try to read the profile map
     TCHAR str[5];
@@ -100,7 +100,7 @@ namespace ProfileMap
     return true;
   }
 
-  static inline bool Get(const TCHAR *key, unsigned &value)
+  inline bool Get(const TCHAR *key, unsigned &value)
   {
     // Try to read the profile map
     TCHAR str[50];
@@ -118,7 +118,7 @@ namespace ProfileMap
     return true;
   }
 
-  static inline bool Get(const TCHAR *key, fixed &value)
+  inline bool Get(const TCHAR *key, fixed &value)
   {
     // Try to read the profile map
     TCHAR str[50];
@@ -136,33 +136,33 @@ namespace ProfileMap
     return true;
   }
 
-  static inline bool Set(const TCHAR *key, bool value)
+  inline bool Set(const TCHAR *key, bool value)
   {
     return Set(key, value ? _T("1") : _T("0"));
   }
 
-  static inline bool Set(const TCHAR *key, int value)
+  inline bool Set(const TCHAR *key, int value)
   {
     TCHAR tmp[50];
     _sntprintf(tmp, 50, _T("%d"), value);
     return Set(key, tmp);
   }
 
-  static inline bool Set(const TCHAR *key, long value)
+  inline bool Set(const TCHAR *key, long value)
   {
     TCHAR tmp[50];
     _sntprintf(tmp, 50, _T("%ld"), value);
     return Set(key, tmp);
   }
 
-  static inline bool Set(const TCHAR *key, unsigned value)
+  inline bool Set(const TCHAR *key, unsigned value)
   {
     TCHAR tmp[50];
     _sntprintf(tmp, 50, _T("%u"), value);
     return Set(key, tmp);
   }
 
-  static inline bool Set(const TCHAR *key, fixed value)
+  inline bool Set(const TCHAR *key, fixed value)
   {
     TCHAR tmp[50];
     _sntprintf(tmp, 50, _T("%f"), (double)value);
@@ -170,6 +170,6 @@ namespace ProfileMap
   }
 
   void Export(ProfileWriter &writer);
-}
+};
 
 #endif

@@ -37,6 +37,10 @@ Copyright_License {
 
 TCHAR startProfileFile[MAX_PATH];
 
+namespace Profile {
+  ProfileMap p;
+}
+
 void
 Profile::Load()
 {
@@ -138,4 +142,73 @@ Profile::GetPath(const TCHAR *key, TCHAR *value)
 
   ExpandLocalPath(value);
   return true;
+}
+
+bool
+Profile::Get(const TCHAR *szRegValue, TCHAR *pPos, size_t dwSize)
+{
+  return p.Get(szRegValue, pPos, dwSize);
+}
+bool
+Profile::Set(const TCHAR *szRegValue, const TCHAR *Pos)
+{
+  return p.Set(szRegValue, Pos);
+}
+
+bool
+Profile::Get(const TCHAR *key, int &value)
+{
+  return p.Get(key, value);
+}
+bool
+Profile::Get(const TCHAR *key, short &value)
+{
+  return p.Get(key, value);
+}
+bool
+Profile::Get(const TCHAR *key, bool &value)
+{
+  return p.Get(key, value);
+}
+bool
+Profile::Get(const TCHAR *key, unsigned &value)
+{
+  return p.Get(key, value);
+}
+bool
+Profile::Get(const TCHAR *key, fixed &value)
+{
+  return p.Get(key, value);
+}
+
+bool
+Profile::Set(const TCHAR *key, bool value)
+{
+  return p.Set(key, value);
+}
+bool
+Profile::Set(const TCHAR *key, int value)
+{
+  return p.Set(key, value);
+}
+bool
+Profile::Set(const TCHAR *key, long value)
+{
+  return p.Set(key, value);
+}
+bool
+Profile::Set(const TCHAR *key, unsigned value)
+{
+  return p.Set(key, value);
+}
+bool
+Profile::Set(const TCHAR *key, fixed value)
+{
+  return p.Set(key, value);
+}
+
+void
+Profile::Export(ProfileWriter &writer)
+{
+  p.Export(writer);
 }
