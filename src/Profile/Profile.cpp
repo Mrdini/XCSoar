@@ -143,10 +143,8 @@ Profile::SetFiles(const TCHAR* override)
     return;
 
   // Set the default profile file
-  if (is_altair())
-    LocalPath(defaultProfileFile, _T("config/")_T(XCSPROFILE));
-  else
-    LocalPath(defaultProfileFile, _T(XCSPROFILE));
+  LocalPath(defaultProfileFile,
+            is_altair() ? _T("config/")_T(XCSPROFILE) : _T(XCSPROFILE));
 
   // Set the profile file to load at startup
   // -> to the default file
