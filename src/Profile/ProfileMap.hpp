@@ -30,8 +30,6 @@ Copyright_License {
 #include <cstdio>
 #include <map>
 
-class ProfileWriter;
-
 class ProfileMap {
 private:
   typedef std::map<tstring, tstring> map_t;
@@ -173,8 +171,6 @@ public:
     _sntprintf(tmp, 50, _T("%f"), (double)value);
     return Set(key, tmp);
   }
-
-  void Export(ProfileWriter &writer);
 };
 
 #endif

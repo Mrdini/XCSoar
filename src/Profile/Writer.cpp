@@ -22,21 +22,14 @@ Copyright_License {
 */
 
 #include "Profile/Writer.hpp"
+#include "Profile/ProfileMap.hpp"
 #include "IO/TextWriter.hpp"
 
 #include <assert.h>
 #include <string.h>
 
 void
-ProfileWriter::write(const TCHAR *key, int value)
-{
-  assert(key != NULL);
-
-  writer.printfln(_T("%s=%d"), key, value);
-}
-
-void
-ProfileWriter::write(const TCHAR *key, const TCHAR *value)
+ProfileWriter::Write(const TCHAR *key, const TCHAR *value)
 {
   assert(key != NULL);
   assert(value != NULL);
@@ -48,4 +41,13 @@ ProfileWriter::write(const TCHAR *key, const TCHAR *value)
 
   // write the value to the output file
   writer.printfln(_T("%s=\"%s\""), key, value);
+}
+
+void
+ProfileWriter::Save()
+{
+  // Iterate through the profile map
+  for (ProfileMap::const_iterator it_str = map.Begin();
+       it_str != map.End(); it_str++)
+    Write(it_str->first.c_str(), it_str->second.c_str());
 }

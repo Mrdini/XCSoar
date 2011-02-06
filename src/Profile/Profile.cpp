@@ -116,10 +116,10 @@ Profile::SaveFile(const TCHAR *szFile, ProfileMap &map)
   if (writer.error())
     return;
 
-  ProfileWriter profile_writer(writer);
+  ProfileWriter profile_writer(writer, p);
 
   LogStartUp(_T("Saving profile to %s"), szFile);
-  map.Export(profile_writer);
+  profile_writer.Save();
 }
 
 

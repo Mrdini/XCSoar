@@ -22,7 +22,6 @@ Copyright_License {
 */
 
 #include "Profile/ProfileMap.hpp"
-#include "Profile/Writer.hpp"
 
 bool
 ProfileMap::Get(const TCHAR *szRegValue, TCHAR *pPos, size_t dwSize)
@@ -42,15 +41,6 @@ ProfileMap::Set(const TCHAR *szRegValue, const TCHAR *Pos)
 {
   map[szRegValue] = Pos;
   return true;
-}
-
-void
-ProfileMap::Export(ProfileWriter &writer)
-{
-  // Iterate through the profile maps
-  for (map_t::const_iterator it_str = map.begin();
-       it_str != map.end(); it_str++)
-    writer.write(it_str->first.c_str(), it_str->second.c_str());
 }
 
 ProfileMap::const_iterator

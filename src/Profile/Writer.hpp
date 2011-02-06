@@ -27,15 +27,20 @@ Copyright_License {
 #include <tchar.h>
 
 class TextWriter;
+class ProfileMap;
 
 class ProfileWriter {
   TextWriter &writer;
+  ProfileMap &map;
 
 public:
-  ProfileWriter(TextWriter &_writer):writer(_writer) {}
+  ProfileWriter(TextWriter &_writer, ProfileMap &_map):
+    writer(_writer), map(_map) {}
 
-  void write(const TCHAR *key, int value);
-  void write(const TCHAR *key, const TCHAR *value);
+  void Save();
+
+private:
+  void Write(const TCHAR *key, const TCHAR *value);
 };
 
 #endif
