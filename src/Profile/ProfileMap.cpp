@@ -24,7 +24,6 @@ Copyright_License {
 #include "Profile/ProfileMap.hpp"
 #include "Profile/Writer.hpp"
 #include "Util/tstring.hpp"
-#include "StringUtil.hpp"
 
 #include <map>
 
