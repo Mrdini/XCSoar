@@ -52,3 +52,15 @@ ProfileMap::Export(ProfileWriter &writer)
        it_str != map.end(); it_str++)
     writer.write(it_str->first.c_str(), it_str->second.c_str());
 }
+
+ProfileMap::const_iterator
+ProfileMap::Begin()
+{
+  return map.begin();
+}
+
+ProfileMap::const_iterator
+ProfileMap::End()
+{
+  return map.end();
+}

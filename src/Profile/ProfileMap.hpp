@@ -38,6 +38,11 @@ private:
   map_t map;
 
 public:
+  typedef map_t::const_iterator const_iterator;
+
+  const_iterator Begin();
+  const_iterator End();
+
   /**
    * Reads a value from the profile map
    * @param szRegValue Name of the value that should be read
