@@ -90,8 +90,6 @@ namespace Profile
   bool Set(const TCHAR *key, long value);
   bool Set(const TCHAR *key, unsigned value);
   bool Set(const TCHAR *key, fixed value);
-
-  void Export(ProfileWriter &writer);
 };
 
 #endif

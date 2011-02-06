@@ -206,9 +206,3 @@ Profile::Set(const TCHAR *key, fixed value)
 {
   return p.Set(key, value);
 }
-
-void
-Profile::Export(ProfileWriter &writer)
-{
-  p.Export(writer);
-}
