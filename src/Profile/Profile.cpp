@@ -36,7 +36,6 @@ Copyright_License {
 #define XCSPROFILE "xcsoar-registry.prf"
 
 TCHAR startProfileFile[MAX_PATH];
-TCHAR defaultProfileFile[MAX_PATH];
 
 void
 Profile::Load()
@@ -45,11 +44,7 @@ Profile::Load()
     return;
 
   LogStartUp(_T("Loading profiles"));
-  // load registry backup if it exists
-  LoadFile(defaultProfileFile);
-
-  if (_tcscmp(startProfileFile, defaultProfileFile) != 0)
-    LoadFile(startProfileFile);
+  LoadFile(startProfileFile);
 }
 
 void
@@ -111,7 +106,7 @@ Profile::Save()
     return;
 
   LogStartUp(_T("Saving profiles"));
-  SaveFile(defaultProfileFile);
+  SaveFile(startProfileFile);
 }
 
 void
@@ -142,17 +137,12 @@ Profile::SetFiles(const TCHAR* override)
   if (!use_files())
     return;
 
-  // Set the default profile file
-  LocalPath(defaultProfileFile,
-            is_altair() ? _T("config/")_T(XCSPROFILE) : _T(XCSPROFILE));
-
   // Set the profile file to load at startup
-  // -> to the default file
-  _tcscpy(startProfileFile, defaultProfileFile);
-
-  // -> to the given filename (if exists)
   if (!string_is_empty(override))
     _tcsncpy(startProfileFile, override, MAX_PATH - 1);
+  else
+    LocalPath(startProfileFile,
+              is_altair() ? _T("config/")_T(XCSPROFILE) : _T(XCSPROFILE));
 }
 
 bool
