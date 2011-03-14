@@ -67,6 +67,7 @@ namespace Graphics {
 #endif
 
   extern Pen hAirspacePens[AIRSPACECLASSCOUNT];
+  extern Pen hAirspacePassivePen;
 #ifndef ENABLE_SDL
   extern Brush hAirspaceBrushes[NUMAIRSPACEBRUSHES];
   extern Bitmap hAirspaceBitmap[NUMAIRSPACEBRUSHES];

@@ -39,6 +39,7 @@ Copyright_License {
 #include "Asset.hpp"
 #include "LogFile.hpp"
 
+Pen Graphics::hAirspacePassivePen;
 Pen Graphics::hAirspacePens[AIRSPACECLASSCOUNT];
 
 #ifndef ENABLE_SDL
@@ -378,6 +379,7 @@ Graphics::InitLandableIcons()
 void
 Graphics::InitAirspacePens(const SETTINGS_MAP &settings_map)
 {
+  hAirspacePassivePen.set(Layout::Scale(2), Colours[14]);
   for (int i = 0; i < AIRSPACECLASSCOUNT; i++)
     hAirspacePens[i].set(Layout::Scale(2),
                          GetAirspaceColourByClass(i, settings_map));
@@ -420,6 +422,7 @@ Graphics::Deinitialise()
       solid_airspace_brushes[i].reset();
 #endif
 
+  hAirspacePassivePen.reset();
   for (unsigned i = 0; i < AIRSPACECLASSCOUNT; i++)
     hAirspacePens[i].reset();
 
