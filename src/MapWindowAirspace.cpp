@@ -45,16 +45,25 @@ class AirspaceWarningCopy:
   public AirspaceWarningVisitor
 {
 private:
+  bool has_unacked_warnings;
   StaticArray<const AbstractAirspace *,64> ids_inside, ids_warning, ids_acked;
   StaticArray<GeoPoint,32> locs;
 
 public:
+  AirspaceWarningCopy()
+    :AirspaceWarningVisitor(),
+     has_unacked_warnings(false) {}
+
   void Visit(const AirspaceWarning& as) {
     if (as.get_warning_state() == AirspaceWarning::WARNING_INSIDE) {
       ids_inside.checked_append(&as.get_airspace());
+      if (as.get_ack_expired())
+        has_unacked_warnings = true;
     } else if (as.get_warning_state() > AirspaceWarning::WARNING_CLEAR) {
       ids_warning.checked_append(&as.get_airspace());
       locs.checked_append(as.get_solution().location);
+      if (as.get_ack_expired())
+        has_unacked_warnings = true;
     }
 
     if (!as.get_ack_expired())
@@ -72,6 +81,10 @@ public:
   }
   bool is_inside(const AbstractAirspace& as) const {
     return find(as, ids_inside);
+  }
+
+  bool has_warning_or_inside() const {
+    return has_unacked_warnings;
   }
 
   void visit_warned(AirspaceVisitor &visitor) {
@@ -329,8 +342,13 @@ public:
 
 private:
   void set_buffer_pens(const AbstractAirspace &airspace) {
-    const unsigned color_index =
+    unsigned color_index =
       m_settings_map.iAirspaceColour[airspace.get_type()];
+
+    if (m_warnings.has_warning_or_inside() &&
+        !m_warnings.is_warning(airspace) &&
+        !m_warnings.is_inside(airspace))
+      color_index = 14;
 
 #ifdef ENABLE_SDL
     Color color = Graphics::Colours[color_index];
@@ -374,14 +392,17 @@ class AirspaceOutlineRenderer
   :public AirspaceVisitor,
    protected MapCanvas
 {
+  const AirspaceWarningCopy& m_warnings;
   bool black;
 
 public:
   AirspaceOutlineRenderer(Canvas &_canvas, const WindowProjection &_projection,
-                          bool _black)
+                          const AirspaceWarningCopy& warnings, bool _black)
     :MapCanvas(_canvas, _projection,
                _projection.GetScreenBounds().scale(fixed(1.1))),
-     black(_black) {
+     m_warnings(warnings),
+     black(_black)
+  {
     if (black)
       canvas.black_pen();
     canvas.hollow_brush();
@@ -389,8 +410,14 @@ public:
 
 protected:
   void setup_canvas(const AbstractAirspace &airspace) {
-    if (!black)
-      canvas.select(Graphics::hAirspacePens[airspace.get_type()]);
+    if (!black) {
+      if (m_warnings.has_warning_or_inside() &&
+          !m_warnings.is_warning(airspace) &&
+          !m_warnings.is_inside(airspace))
+        canvas.select(Graphics::hAirspacePassivePen);
+      else
+        canvas.select(Graphics::hAirspacePens[airspace.get_type()]);
+    }
   }
 
 public:
@@ -459,7 +486,7 @@ MapWindow::DrawAirspace(Canvas &canvas)
 
   v.draw_intercepts();
 
-  AirspaceOutlineRenderer outline_renderer(canvas, render_projection,
+  AirspaceOutlineRenderer outline_renderer(canvas, render_projection, awc,
                                            SettingsMap().bAirspaceBlackOutline);
   airspace_database->visit_within_range(render_projection.GetGeoScreenCenter(),
                                         render_projection.GetScreenDistanceMeters(),
