@@ -87,6 +87,10 @@ struct Declaration {
     return TurnPoints[i].waypoint.Location;
   }
 
+  const TurnPoint &get_turnpoint(const unsigned i) const {
+    return TurnPoints[i];
+  }
+
   gcc_pure
   unsigned size() const {
     return TurnPoints.size();
