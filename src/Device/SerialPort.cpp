@@ -348,6 +348,18 @@ SerialPort::SetRxTimeout(int Timeout)
 }
 
 unsigned long
+SerialPort::GetBaudrate() const
+{
+  if (hPort == INVALID_HANDLE_VALUE)
+    return 0;
+
+  DCB PortDCB;
+  GetCommState(hPort, &PortDCB);
+
+  return PortDCB.BaudRate;
+}
+
+unsigned long
 SerialPort::SetBaudrate(unsigned long BaudRate)
 {
   COMSTAT ComStat;

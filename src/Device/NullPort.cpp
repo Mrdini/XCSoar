@@ -70,6 +70,12 @@ NullPort::SetRxTimeout(int Timeout)
 }
 
 unsigned long
+NullPort::GetBaudrate() const
+{
+  return 0;
+}
+
+unsigned long
 NullPort::SetBaudrate(unsigned long BaudRate)
 {
   return BaudRate;
