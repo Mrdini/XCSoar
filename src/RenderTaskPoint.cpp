@@ -122,6 +122,7 @@ RenderTaskPoint::Visit(const AATPoint& tp)
 {
   m_index++;
   
+#if 0
 #ifndef ENABLE_OPENGL
   if (m_layer == RENDER_TASK_OZ_SHADE && buffer != NULL &&
       do_draw_deadzone(tp) && !is_ancient_hardware()) {
@@ -158,6 +159,7 @@ RenderTaskPoint::Visit(const AATPoint& tp)
       return;
     }
   }
+#endif
 #endif
 
   draw_ordered(tp);
