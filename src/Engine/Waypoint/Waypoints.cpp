@@ -70,6 +70,13 @@ Waypoints::Waypoints():
 {
 }
 
+class LandablePredicate {
+public:
+  bool operator()(const WaypointEnvelope& as) const {
+    return as.get_waypoint().IsLandable();
+  }
+};
+
 void
 Waypoints::optimise()
 {
@@ -118,23 +125,11 @@ Waypoints::append(Waypoint& wp)
   tmp_wps.push_back(WaypointEnvelope(wp));
 }
 
-
 const Waypoint*
 Waypoints::get_nearest(const GeoPoint &loc) const 
 {
-  WaypointTree::const_iterator it = find_nearest(loc);
-
-  if (it != waypoint_tree.end())
-    return &it->get_waypoint();
-
-  return NULL;
-}
-
-Waypoints::WaypointTree::const_iterator
-Waypoints::find_nearest(const GeoPoint &loc) const
-{
   if (empty())
-    return waypoint_tree.end();
+    return NULL;
 
   WaypointEnvelope bb_target(loc, task_projection);
   std::pair<WaypointTree::const_iterator, WaypointTree::distance_type> found =
@@ -144,9 +139,31 @@ Waypoints::find_nearest(const GeoPoint &loc) const
   n_queries++;
 #endif
 
-  return found.first;
+  if (found.first == waypoint_tree.end())
+    return NULL;
+
+  return &found.first->get_waypoint();
 }
 
+const Waypoint*
+Waypoints::get_nearest_landable(const GeoPoint &loc, unsigned long range) const
+{
+  if (empty())
+    return NULL;
+
+  WaypointEnvelope bb_target(loc, task_projection);
+  std::pair<WaypointTree::const_iterator, WaypointTree::distance_type> found =
+      waypoint_tree.find_nearest_if(bb_target, range, LandablePredicate());
+
+#ifdef INSTRUMENT_TASK
+  n_queries++;
+#endif
+
+  if (found.first == waypoint_tree.end())
+    return NULL;
+
+  return &found.first->get_waypoint();
+}
 void
 Waypoints::set_details(const Waypoint& wp, const tstring& Details)
 {
@@ -449,11 +466,15 @@ Waypoints::add_takeoff_point(const GeoPoint& location,
 {
   // remove old one first
   const Waypoint *old_takeoff_point = lookup_name(_T("(takeoff)"));
-  if (old_takeoff_point != NULL) {
+  if (old_takeoff_point != NULL)
     erase(*old_takeoff_point);
+
+  const Waypoint *nearest_landable = get_nearest_landable(location, 5000);
+  if (!nearest_landable) {
+    // now add new and update database
+    Waypoint new_waypoint = generate_takeoff_point(location, terrain_alt);
+    append(new_waypoint);
   }
-  // now add new and update database
-  Waypoint new_waypoint = generate_takeoff_point(location, terrain_alt);
-  append(new_waypoint);
+
   optimise();
 }
