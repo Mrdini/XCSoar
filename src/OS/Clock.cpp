@@ -51,12 +51,13 @@ MonotonicClockMS()
 #if defined(HAVE_POSIX) && !defined(__CYGWIN__) && !defined(HAVE_OSX)
   struct timespec ts;
  clock_gettime(CLOCK_MONOTONIC, &ts);
-#endif
-#if defined(HAVE_OSX)
+#elif defined(HAVE_OSX)
   struct timespec ts;
   int end = mach_absolute_time();  
   mach_absolute_difference(end, 0, &ts);
-  return ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
+#endif
+#if defined(HAVE_POSIX)
+return ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
 #else /* !HAVE_POSIX */
   return ::GetTickCount();
 #endif /* !HAVE_POSIX */
