@@ -28,13 +28,34 @@ Copyright_License {
 #else /* !HAVE_POSIX */
 #include <windows.h>
 #endif /* !HAVE_POSIX */
+#if defined(HAVE_OSX)
+#include <mach/mach_time.h>  
+
+void mach_absolute_difference(uint64_t end, uint64_t start, struct timespec *tp) {  
+        uint64_t difference = end - start;  
+        static mach_timebase_info_data_t info = {0,0};  
+  
+        if (info.denom == 0)  
+                mach_timebase_info(&info);  
+  
+        uint64_t elapsednano = difference * (info.numer / info.denom);  
+  
+        tp->tv_sec = elapsednano * 1e-9;  
+        tp->tv_nsec = elapsednano - (tp->tv_sec * 1e9);  
+}  
+#endif
 
 unsigned
 MonotonicClockMS()
 {
-#if defined(HAVE_POSIX) && !defined(__CYGWIN__)
+#if defined(HAVE_POSIX) && !defined(__CYGWIN__) && !defined(HAVE_OSX)
   struct timespec ts;
-  clock_gettime(CLOCK_MONOTONIC, &ts);
+ clock_gettime(CLOCK_MONOTONIC, &ts);
+#endif
+#if defined(HAVE_OSX)
+  struct timespec ts;
+  int end = mach_absolute_time();  
+  mach_absolute_difference(end, 0, &ts);
   return ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
 #else /* !HAVE_POSIX */
   return ::GetTickCount();
